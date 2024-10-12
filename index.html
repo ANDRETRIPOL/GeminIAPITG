@@ -14,7 +14,7 @@
         .container {
             display: flex;
             flex-direction: column;
-            height: 100vh;
+            height: 80vh; /* Изменено на 80vh для уменьшения высоты */
             justify-content: space-between;
             padding: 20px;
         }
@@ -113,6 +113,11 @@
                     }),
                 });
 
+                // Проверка статуса ответа
+                if (!response.ok) {
+                    throw new Error(`Ошибка: ${response.status}`);
+                }
+
                 const data = await response.json();
                 if (data && data.generatedContent) {
                     appendMessage(data.generatedContent, 'ai'); // Отправка ответа от AI
@@ -121,7 +126,7 @@
                 }
             } catch (error) {
                 console.error('Ошибка:', error);
-                appendMessage('Произошла ошибка при обращении к API.', 'ai');
+                appendMessage('Произошла ошибка при обращении к API: ' + error.message, 'ai');
             }
         });
 
