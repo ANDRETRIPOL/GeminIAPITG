@@ -57,10 +57,11 @@
         }
         .message.user {
             text-align: right;
+            color: #007BFF;
         }
         .message.ai {
             text-align: left;
-            color: #007BFF;
+            color: #333;
         }
     </style>
 </head>
@@ -92,10 +93,10 @@
 
         sendButton.addEventListener('click', async () => {
             const userQuestion = userInput.value.trim();
-            if (userQuestion === '') return;
+            if (userQuestion === '') return; // Проверка на пустой ввод
 
-            appendMessage(userQuestion, 'user');
-            userInput.value = '';
+            appendMessage(userQuestion, 'user'); // Добавление вопроса пользователя
+            userInput.value = ''; // Очистка поля ввода
 
             // Вызов API
             try {
@@ -114,20 +115,13 @@
 
                 const data = await response.json();
                 if (data && data.generatedContent) {
-                    appendMessage(data.generatedContent, 'ai');
+                    appendMessage(data.generatedContent, 'ai'); // Отправка ответа от AI
                 } else {
                     appendMessage('Ошибка получения ответа от AI.', 'ai');
                 }
             } catch (error) {
                 console.error('Ошибка:', error);
                 appendMessage('Произошла ошибка при обращении к API.', 'ai');
-            }
-        });
-
-        // Обработка нажатия клавиши Enter
-        userInput.addEventListener('keypress', (event) => {
-            if (event.key === 'Enter') {
-                sendButton.click();
             }
         });
 
