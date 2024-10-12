@@ -6,24 +6,26 @@
     <title>Gemini AI Assistant</title>
     <style>
         body {
-            width: 100%; /* Полная ширина для мобильных устройств */
-            height: 100vh; /* Полная высота для мобильных устройств */
+            width: 100%;
+            height: 100vh;
             margin: 0;
             padding: 10px;
             font-family: -apple-system, BlinkMacSystemFont, sans-serif;
             background-color: #fcfcfc;
+            display: flex;
+            flex-direction: column; /* Убедимся, что элементы располагаются вертикально */
         }
         #chatContainer {
+            flex-grow: 1; /* Делаем контейнер чат-бокса гибким */
             display: flex;
             flex-direction: column;
-            height: 100%;
             overflow: hidden;
         }
         #chatbox {
             flex-grow: 1;
             overflow-y: auto;
             padding: 10px;
-            font-size: 14px; /* Уменьшение размера шрифта */
+            font-size: 14px;
         }
         .message {
             max-width: 70%;
@@ -47,12 +49,12 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            padding: 10px 0; /* Уменьшение отступов */
+            padding: 10px 0;
             position: relative;
         }
         #inputDot {
-            width: 15px; /* Уменьшение размера */
-            height: 15px; /* Уменьшение размера */
+            width: 15px;
+            height: 15px;
             background-color: #000;
             border-radius: 50%;
             cursor: pointer;
@@ -69,45 +71,36 @@
             display: flex;
             align-items: center;
             width: 80%;
-            max-width: 250px; /* Уменьшение ширины */
+            max-width: 250px;
             background-color: white;
             border-radius: 20px;
             overflow: hidden;
-            opacity: 0;
-            transform: scale(0);
+            opacity: 1; /* Убедимся, что ввод виден */
             transition: all 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55);
         }
         #userInput {
             flex-grow: 1;
-            padding: 8px 10px; /* Уменьшение отступов */
+            padding: 8px 10px;
             border: none;
-            font-size: 14px; /* Уменьшение размера шрифта */
+            font-size: 14px;
             background-color: transparent;
             outline: none;
         }
         #sendButton {
             background-color: transparent;
             border: none;
-            padding: 8px 10px; /* Уменьшение отступов */
+            padding: 8px 10px;
             cursor: pointer;
             transition: all 0.3s ease;
         }
         #sendButton svg {
-            width: 18px; /* Уменьшение размера */
-            height: 18px; /* Уменьшение размера */
+            width: 18px;
+            height: 18px;
             fill: none;
             stroke: #000;
             stroke-width: 2;
             stroke-linecap: round;
             stroke-linejoin: round;
-        }
-        #inputContainer:hover #inputDot {
-            transform: scale(0);
-            opacity: 0;
-        }
-        #inputContainer:hover #inputWrapper {
-            transform: scale(1);
-            opacity: 1;
         }
         #requestLimit {
             text-align: center;
@@ -141,6 +134,10 @@
 
         let requestsCount = 0;
         let lastResetTime = Date.now();
+
+        // Инициализация Telegram Web App
+        const tg = window.Telegram.WebApp;
+        tg.ready(); // Подготовка Telegram Web App
 
         document.getElementById('sendButton').addEventListener('click', sendMessage);
         document.getElementById('userInput').addEventListener('keypress', function(e) {
